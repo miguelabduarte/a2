@@ -1,0 +1,90 @@
+/* style.css */
+
+/* Estilos gerais do site */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f4; /* Fundo mais claro */
+}
+
+/* Estilos do menu lateral (sidebar) */
+.sidebar {
+    width: 250px;
+    background-color: #ffffff; /* Cor branca da sidebar */
+    color: #5a5a5a;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
+}
+
+.sidebar h2 {
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 40px;
+}
+
+.menu-item {
+    font-size: 16px;
+    color: #5a5a5a;
+    margin-bottom: 20px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.menu-item img {
+    margin-right: 10px;
+    width: 24px; /* Ajustar o tamanho do ícone */
+    height: 24px; /* Ajustar o tamanho do ícone */
+}
+
+.menu-item:hover {
+    background-color: #f3f3f3;
+}
+
+.menu-item.active {
+    background-color: #e0e0e0;
+}
+
+.settings-section h2 {
+    color: #5a5a5a;
+    font-size: 16px;
+    margin-top: 50px;
+}
+
+/* Estilos da área de conteúdo principal */
+.content {
+    flex: 1;
+    padding: 40px;
+    background-color: #e4e6eb; /* Fundo mais escuro */
+    overflow-y: auto;
+}
+
+.content h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.content p {
+    font-size: 16px;
+    color: #666;
+}
+
+/* Estilos para ajustes em telas menores */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .menu-item {
+        font-size: 14px;
+    }
+}

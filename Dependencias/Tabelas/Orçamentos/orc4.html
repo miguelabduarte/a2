@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orçamentos</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e4e6eb;
+            padding: 20px;
+        }
+
+        #budgets-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Três colunas */
+            gap: 20px; /* Espaçamento entre as tabelas */
+        }
+
+        .budget-container {
+            background-color: #ffffff9c;
+            padding: 20px;
+            border-radius: 26px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.527);
+            width: 300px;
+        }
+
+        .editable-title {
+            font-size: 24px;
+            border: none;
+            border-bottom: 4px solid #757575;
+            padding: 5px;
+            width: 100%;
+            margin-bottom: 20px;
+            color: #797878;
+            font-weight: bold;
+            background: transparent;
+        }
+
+        .label {
+            display: block;
+            margin: 10px 0 6px;
+            font-weight: bold;
+            color: #313131;
+            padding-left: 4px;
+        }
+
+        .input-field {
+            width: 92%;
+            padding: 10px;
+            border: 1px solid #333333d2;
+            border-radius: 12px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.521);
+            margin-bottom: 15px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+        }
+
+        /* Estilos para o container de botões */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .first .button-container {
+            justify-content: space-between; /* Mantém a mesma distribuição */
+            align-items: center;
+            margin-left: 0px;
+            margin-right: 90px;
+        }
+
+        .add-button {
+            margin-left: 10px; /* Define a mesma margem esquerda do botão '+' */
+        }
+
+        .calculate-button {
+            padding: 10px 20px;
+            background-color: #242424ec;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.521);
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .remove-button {
+            padding: 4px 16px;
+            background-color: #242424ec;
+            color: white;
+            font-weight: 900;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.521);
+            cursor: pointer;
+            font-size: 24px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .add-button {
+            padding: 4px 14px;
+            background-color: #242424ec;
+            color: white;
+            font-weight: 900;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.521);
+            cursor: pointer;
+            font-size: 24px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .calculate-button:hover {
+            background-color: #111111f1;
+            transform: scale(1.1);  
+        }
+        
+        .remove-button:hover {
+            background-color: #b11a21 ;
+            transform: scale(1.1);  
+        }
+        
+        .add-button:hover {
+            background-color: #269e26;
+            transform: scale(1.1);  
+        }
+
+        .remove-button {
+            background-color: #e62739 ;
+            display: none; /* Inicialmente oculto */
+            margin-right: 10px;
+        }
+
+        .add-button {
+            background-color: #228B22;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            margin-top: 7px auto;
+            margin-bottom: 0px auto;
+            border-collapse: collapse;
+            display: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.521);
+            border: 2px solid #303030d3;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #3f3e3e8c;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        td#totalMetrosLabel, td#precoTotalLabel {
+            background-color: #918f8fbe;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        td#totalMetros, td#precoTotal {
+            background-color: #a1a1a1b0;
+            color: #000000;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div id="budgets-container">
+    <div class="budget-container first" data-id="1">
+        <input type="text" class="editable-title" value="ORÇAMENTO A" onfocus="this.select()" />
+        
+        <label class="label">Número de Pedras</label>
+        <input type="text" id="numPedras" class="input-field" placeholder="Insira o número de pedras" />
+        
+        <label class="label">Comprimento (m)</label>
+        <input type="text" id="comprimento" class="input-field" placeholder="Insira o comprimento" />
+        
+        <label class="label">Largura (m)</label>
+        <input type="text" id="largura" class="input-field" placeholder="Insira a largura " />
+        
+        <label class="label">Preço m² (€)</label>
+        <input type="text" id="precoPorM2" class="input-field" placeholder="Insira o preço por m² " />
+
+        <div class="button-container">
+            <button class="add-button" onclick="addNewBudget(this)">+</button>
+            <button class="calculate-button" onclick="calculate(this)">Calcular</button>
+            <button class="remove-button" onclick="removeBudget(this)">-</button>
+        </div>
+
+        <table id="resultado">
+            <tr>
+                <td id="totalMetrosLabel">Total de metros</td>
+                <td id="totalMetros">0 m²</td>
+            </tr>
+            <tr>
+                <td id="precoTotalLabel">Preço Total</td>
+                <td id="precoTotal">0 €</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    let budgetCount = 1;
+
+    // Função para calcular o orçamento
+    function calculate(button) {
+        const container = button.closest('.budget-container');
+        const numPedras = parseFloat(container.querySelector('#numPedras').value) || 0;
+        const comprimento = parseFloat(container.querySelector('#comprimento').value) || 0;
+        const largura = parseFloat(container.querySelector('#largura').value) || 0;
+        const precoPorM2 = parseFloat(container.querySelector('#precoPorM2').value) || 0;
+
+        const areaTotal = comprimento * largura;
+        const totalMetrosQuadrados = numPedras * areaTotal;
+        const precoTotal = areaTotal * precoPorM2;
+
+        container.querySelector('#totalMetros').innerHTML = totalMetrosQuadrados.toFixed(2) + " m²";
+        container.querySelector('#precoTotal').innerHTML = precoTotal.toFixed(2) + " €";
+
+        container.querySelector('#resultado').style.display = 'table';
+    }
+
+    // Função para adicionar um novo orçamento
+    function addNewBudget(button) {
+        budgetCount++;
+        const container = button.closest('.budget-container');
+        const newContainer = container.cloneNode(true);
+
+        // Limpar campos
+        newContainer.querySelectorAll('input').forEach(input => input.value = "");
+        newContainer.querySelector('#totalMetros').innerHTML = "0 m²";
+        newContainer.querySelector('#precoTotal').innerHTML = "0 €";
+        newContainer.querySelector('#resultado').style.display = 'none';
+
+        // Renomear o título automaticamente
+        const title = `ORÇAMENTO ${String.fromCharCode(65 + (budgetCount - 1))}`;
+        newContainer.querySelector('.editable-title').value = title;
+
+        // Mostrar o botão '-' nas novas tabelas (exceto na primeira)
+        newContainer.querySelector('.remove-button').style.display = 'block';
+
+        // Remover classe 'first'
+        newContainer.classList.remove('first');
+
+        document.getElementById('budgets-container').appendChild(newContainer);
+    }
+
+    // Função para remover um orçamento
+    function removeBudget(button) {
+        const container = button.closest('.budget-container');
+        container.remove();
+    }
+</script>
+
+</body>
+</html>
